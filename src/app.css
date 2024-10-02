@@ -1,0 +1,70 @@
+h1 {
+  padding-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.flx-calc {
+  border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: blanchedalmond;
+  border: solid black 1px;
+  width: 270px;
+  margin: 30px auto;
+  border-radius: 20px;
+}
+
+.inputflx {
+  display: block;
+  height: 50px;
+  width: 90%;
+  font-size: 40px;
+  margin: 10px;
+  border-radius: 20px;
+  border: none;
+  background-color: rgb(56, 54, 54);
+  color: aliceblue;
+  font-family: 'digital';
+}
+
+
+.lableshow {
+  display: block;
+  color: rgb(0, 0, 0);
+  height: 20px;
+  font-family: 'digital';
+}
+
+.grid-container {
+  display: grid;
+  grid-template-rows: repeat(5, 50px);
+  grid-template-columns: repeat(4, 50px);
+  gap: 10px;
+  padding: 10px;
+}
+
+.grid-item {
+  border-radius: 10px;
+  border: none;
+  color: rgb(247, 247, 247);
+  cursor: pointer;
+  background-color: rgb(112, 0, 0);
+  transition: background-color 500ms;
+
+  &:hover {
+    background-color: rgb(7, 6, 85);
+  }
+}
+
+.b0 {
+  grid-row: 5;
+  grid-column: 1 /span 2;
+}
+
+.beq {
+  grid-row: 4/span 2;
+  grid-column: 4;
+}
