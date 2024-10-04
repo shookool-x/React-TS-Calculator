@@ -110,62 +110,67 @@ function App() {
   function handleEqu() {
     if (span && !eqFlag) {
       if (["+", "-", "\u00F7", "\u00D7"].includes(span.slice(-1))) {
-        setSpan(prevSpan => prevSpan.slice(0, -1))
+        setSpan(prevSpan => {
+          setEqFlag(true);
+          setMain(calculate(prevSpan.slice(0, -1)));
+          return prevSpan.slice(0, -1) + "=" + calculate(prevSpan.slice(0, -1));
+        });
+      } else {
+        setEqFlag(true);
+        setMain(calculate(span));
+        setSpan(prevSpan => {
+          return prevSpan + "=" + calculate(span)
+        })
       }
-
-      // mantegh mohasebe riazi yek reshte!
-
-      const myNumbers: number[] = span.split(/[+\-\u00F7\u00D7]/).map(item => parseFloat(item));
-      const myOperateor = span.match(/[+\-\u00F7\u00D7]/g);
-
-      if (myOperateor?.length) {
-        let i = 0;
-        while (i < myOperateor.length) {
-          if (myOperateor[i] === '\u00D7') {
-            let eq = myNumbers[i] * myNumbers[i + 1];
-            myNumbers[i] = eq;
-            myNumbers.splice(i + 1, 1);
-            myOperateor.splice(i, 1);
-          } else if (myOperateor[i] === '\u00F7' && myNumbers[i + 1] !== 0) {
-            let eq = myNumbers[i] / myNumbers[i + 1];
-            myNumbers[i] = eq;
-            myNumbers.splice(i + 1, 1);
-            myOperateor.splice(i, 1);
-          } else if (myOperateor[i] === '\u00F7' && myNumbers[i + 1] === 0) {
-            setEqFlag(true)
-            setMain('Invalid');
-            setSpan(prevSpan => {
-              return prevSpan + "= Invalid"
-            })
-            return;
-          } else { i++; }
-        }
-      }
-
-      if (myOperateor?.length) {
-        let i = 0;
-        while (i < myOperateor.length) {
-          if (myOperateor[i] === '+') {
-            let eq = myNumbers[i] + myNumbers[i + 1];
-            myNumbers[i] = eq;
-            myNumbers.splice(i + 1, 1);
-            myOperateor.splice(i, 1);
-          } else if (myOperateor[i] === '-') {
-            let eq = myNumbers[i] - myNumbers[i + 1];
-            myNumbers[i] = eq;
-            myNumbers.splice(i + 1, 1);
-            myOperateor.splice(i, 1);
-          } else { i++; }
-        }
-      }
-
-      setEqFlag(true)
-      setMain(String(myNumbers[0]));
-      setSpan(prevSpan => {
-        return prevSpan + "=" + String(myNumbers[0])
-      })
-
     }
   }
+
+
+  // mantegh mohasebe riazi yek reshte!
+  function calculate(span: string): string {
+
+    const myNumbers = span.split(/[+\-\u00F7\u00D7]/).map(item => parseFloat(item));
+    const myOperateor = span.match(/[+\-\u00F7\u00D7]/g);
+
+    if (myOperateor?.length) {
+      let i = 0;
+      while (i < myOperateor.length) {
+        if (myOperateor[i] === '\u00D7') {
+          let eq = myNumbers[i] * myNumbers[i + 1];
+          myNumbers[i] = eq;
+          myNumbers.splice(i + 1, 1);
+          myOperateor.splice(i, 1);
+        } else if (myOperateor[i] === '\u00F7' && myNumbers[i + 1] !== 0) {
+          let eq = myNumbers[i] / myNumbers[i + 1];
+          myNumbers[i] = eq;
+          myNumbers.splice(i + 1, 1);
+          myOperateor.splice(i, 1);
+        } else if (myOperateor[i] === '\u00F7' && myNumbers[i + 1] === 0) {
+          return "Invalid";
+        } else { i++; }
+      }
+    }
+
+    if (myOperateor?.length) {
+      let i = 0;
+      while (i < myOperateor.length) {
+        if (myOperateor[i] === '+') {
+          let eq = myNumbers[i] + myNumbers[i + 1];
+          myNumbers[i] = eq;
+          myNumbers.splice(i + 1, 1);
+          myOperateor.splice(i, 1);
+        } else if (myOperateor[i] === '-') {
+          let eq = myNumbers[i] - myNumbers[i + 1];
+          myNumbers[i] = eq;
+          myNumbers.splice(i + 1, 1);
+          myOperateor.splice(i, 1);
+        } else { i++; }
+      }
+    }
+
+    return String(myNumbers[0]);
+  }
+
+
 }
 export default App;
